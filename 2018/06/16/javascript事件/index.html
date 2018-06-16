@@ -1,0 +1,348 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+
+  
+  <title>javascript事件 | Zoro</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="JavaScript事件:发生什么事了？在最近的代码中,我同时给document元素和其内部元素添加click事件监听,根据事件监听的结果来显示隐藏某个提示框.但在实现过程中,我发现,当内部元素点击显示提示框后,又会立马隐藏.看别人实现的方法,才发觉我使用的事件监听有问题,由此致使我再次读一读JavaScript中事件模型及相关知识.基于此,便有写下自己的理解。">
+<meta name="keywords" content="Javascript事件">
+<meta property="og:type" content="article">
+<meta property="og:title" content="javascript事件">
+<meta property="og:url" content="http://yoursite.com/2018/06/16/javascript事件/index.html">
+<meta property="og:site_name" content="Zoro">
+<meta property="og:description" content="JavaScript事件:发生什么事了？在最近的代码中,我同时给document元素和其内部元素添加click事件监听,根据事件监听的结果来显示隐藏某个提示框.但在实现过程中,我发现,当内部元素点击显示提示框后,又会立马隐藏.看别人实现的方法,才发觉我使用的事件监听有问题,由此致使我再次读一读JavaScript中事件模型及相关知识.基于此,便有写下自己的理解。">
+<meta property="og:locale" content="default">
+<meta property="og:image" content="https://upload-images.jianshu.io/upload_images/1225373-21d8b29bb5a5934c.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/394">
+<meta property="og:updated_time" content="2018-06-16T00:41:53.414Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="javascript事件">
+<meta name="twitter:description" content="JavaScript事件:发生什么事了？在最近的代码中,我同时给document元素和其内部元素添加click事件监听,根据事件监听的结果来显示隐藏某个提示框.但在实现过程中,我发现,当内部元素点击显示提示框后,又会立马隐藏.看别人实现的方法,才发觉我使用的事件监听有问题,由此致使我再次读一读JavaScript中事件模型及相关知识.基于此,便有写下自己的理解。">
+<meta name="twitter:image" content="https://upload-images.jianshu.io/upload_images/1225373-21d8b29bb5a5934c.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/394">
+  
+    <link rel="alternate" href="/atom.xml" title="Zoro" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="/favicon.png">
+  
+  
+    <link href="//fonts.googleapis.com/css?family=Source+Code+Pro" rel="stylesheet" type="text/css">
+  
+  <link rel="stylesheet" href="/css/style.css">
+</head>
+
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <h1 id="logo-wrap">
+        <a href="/" id="logo">Zoro</a>
+      </h1>
+      
+        <h2 id="subtitle-wrap">
+          <a href="/" id="subtitle">When u want to fly, I guess the wind will do a favor.</a>
+        </h2>
+      
+    </div>
+    <div id="header-inner" class="inner">
+      <nav id="main-nav">
+        <a id="main-nav-toggle" class="nav-icon"></a>
+        
+          <a class="main-nav-link" href="/">Home</a>
+        
+          <a class="main-nav-link" href="/archives">Archives</a>
+        
+      </nav>
+      <nav id="sub-nav">
+        
+          <a id="nav-rss-link" class="nav-icon" href="/atom.xml" title="RSS Feed"></a>
+        
+        <a id="nav-search-btn" class="nav-icon" title="Search"></a>
+      </nav>
+      <div id="search-form-wrap">
+        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="Search"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="http://yoursite.com"></form>
+      </div>
+    </div>
+  </div>
+</header>
+      <div class="outer">
+        <section id="main"><article id="post-javascript事件" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2018/06/16/javascript事件/" class="article-date">
+  <time datetime="2018-06-16T00:37:21.000Z" itemprop="datePublished">2018-06-16</time>
+</a>
+    
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/Javascript/">Javascript</a>
+  </div>
+
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      javascript事件
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h1 id="JavaScript事件-发生什么事了？"><a href="#JavaScript事件-发生什么事了？" class="headerlink" title="JavaScript事件:发生什么事了？"></a>JavaScript事件:发生什么事了？</h1><p>在最近的代码中,我同时给document元素和其内部元素添加click事件监听,根据事件监听的结果来显示隐藏某个提示框.但在实现过程中,我发现,当内部元素点击显示提示框后,又会立马隐藏.看别人实现的方法,才发觉我使用的事件监听有问题,由此致使我再次读一读JavaScript中事件模型及相关知识.基于此,便有写下自己的理解。</p>
+<a id="more"></a>
+<h2 id="一-what-happened-事件模型"><a href="#一-what-happened-事件模型" class="headerlink" title="一. what happened: 事件模型"></a>一. what happened: 事件模型</h2><p>当用户对页面进行键盘/鼠标操作时,页面本质上发生了什么事？如何来响应用户的操作？</p>
+<p>要了解这个问题,就要知道浏览器处理用户的操作是一个怎么样的流程.在JavaScript中,我们把用户对页面的操作当作一次事件,event. 这个事件的对象就是用户操作的对象,例如用户点击链接\按钮,那么链接\按钮就是事件的对象,注意,我们这里的链接按钮都是指页面中的dom元素来说的.但是,我们都知道,页面中的各个元素是通过一个dom树的结构形式来渲染显示.也就是说,你点击dom树上的一片叶子,比如按钮,那么在树(dom树)看来,你点了树(叶子是树上的),你也点了树枝(叶子也是某个树枝上的),你还点了枝丫(叶子长在枝丫末端),最后才是点击了叶子本身.那么问题来了,dom树的这些结构都认为你点击了它们,怎么给它们认为的点击自己排一个先后顺序呢？</p>
+<p>讲到这里,为了理清这个所谓的先后顺序,历史上,Microsoft将这个顺序指定为从具体到笼统,也就是说,点击的先后顺序是从“叶子-&gt;枝丫-&gt;树枝-&gt;树”这样的一个顺序,又由于在这个过程中,点击的对象大小是逐渐变大的,就像泡泡慢慢变大一样,所以把它叫做“冒泡”.但是Netscape却不是这样认为,应该是先有树,才能有树枝,才能有枝丫,才能有叶子让你点击.所以顺序应该要反过来,是“树-&gt;树枝-&gt;枝丫-&gt;叶子”的这个顺序,可以看出,这个过程就像在树上抓捕到那个被具体点击的叶子,因此这个过程被称为“捕获”.后来,为了避免争端,W3C将二者结合起来,建立了一个事件模型.总结一下,就是,现阶段的W3C事件模型的四要素:</p>
+<ul>
+<li>前提: DOM树</li>
+<li>第一阶段: 捕获阶段</li>
+<li>第二阶段: 得到目标</li>
+<li>第三阶段: 冒泡阶段</li>
+</ul>
+<p><img src="https://upload-images.jianshu.io/upload_images/1225373-21d8b29bb5a5934c.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/394" alt="事件模型"></p>
+<h2 id="二-how-to-response-事件监听"><a href="#二-how-to-response-事件监听" class="headerlink" title="二. how to response: 事件监听"></a>二. how to response: 事件监听</h2><p>既然知晓浏览器处理用户操作的过程,那么我们就可以根据需要读对感兴趣的事件进行响应,如何响应呢？答案就是给将要响应的元素绑定事件/监听事件.在进行事件绑定的时候,我们有多种选择.首先是DOM 0 level event.</p>
+<ol>
+<li>DOM, Document Object Model</li>
+</ol>
+<p>讲到DOM 0 level, DOM1/2/3 level就有必要提一下W3C的DOM. W3C的DOM模型定义了一系列API,通过这些API你可以改变文档的结构,内容和样式.这个DOM模型的实现方法有许多条框,也就是所谓的标准;而各大浏览器要实现对网页文档的编辑,就要依据这个DOM模型的标准进行实现这一系列API就可以.</p>
+<ol start="2">
+<li>DOM 0 level event</li>
+</ol>
+<p>由于在W3C还未正式发布DOM标准之前,各大浏览器就已经对访问文档实现了一系列API.其中,对元素进行事件绑定的API就是DOM 0 level event.这个绑定方法比较原始,它是通过在元素上内联事件绑定函数实现, 并给函数传入一个事件对象. 事件对象event包含了有关事件的一系列信息,如事件类型,事件目标等等. 使用方法例如：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">// in javascript:</span><br><span class="line">function handler(e) &#123;</span><br><span class="line">    // do something to response the event</span><br><span class="line">    console.log(e)</span><br><span class="line">&#125;</span><br><span class="line">// in html:</span><br><span class="line">&lt;div id=&apos;eventTarget&apos; onclick=&apos;handler&apos;&gt;something else&lt;/div&gt;</span><br><span class="line">//in javascript: 删除该事件</span><br><span class="line">document.getElementById(&apos;eventTarget&apos;).onclick = null</span><br></pre></td></tr></table></figure></p>
+<p>这样的绑定方法说它原始是因为:第一,它是直接绑定在目标元素上的,不易扩展;第二,它只能响应一个函数,你不能同时添加两个不同的handler去响应事件.虽然W3C DOM标准并不推荐使用该方式进行事件绑定,即便如此,它还是可以使用,因为它的支持性最广泛.</p>
+<ol start="3">
+<li>DOM 2 level event</li>
+</ol>
+<p>接下来是DOM 2 level event. 为什么没有DOM 1 level event呢? 在W3C制定DOM 1 level标准时,并没有指定event相关的API,所以说没有DOM 1 level event.<br>在DOM 2 level event中, W3C建立了如上的事件捕获-冒泡模型. 在DOM 2 level event中,你可以选择元素响应事件的阶段,也就是说,你可以在事件捕获阶段响应事件,也可以在事件冒泡阶段响应事件.使用方法如下:<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">EventTarget.addEventListener(event, handler, [useCapture | options])</span><br><span class="line">/*  useCapture: Boolean, 是否在捕获阶段响应事件,默认为false(在冒泡阶段)</span><br><span class="line">    options: &#123;</span><br><span class="line">        capture: Boolean, 同useCapture</span><br><span class="line">        passive: Boolean, 是否禁止在handler中使用event.preventDefault()</span><br><span class="line">        once:    Boolean, 是否只响应一次事件,响应过后即删除本事件监听器</span><br><span class="line">    &#125;</span><br><span class="line">*/</span><br><span class="line">EventTarget.removeEventListener(event, hanlder)</span><br><span class="line"></span><br><span class="line">var myEvent = new Event(&apos;myEvent&apos;)</span><br><span class="line">var myCustomerEvent = new CustomEvent(&apos;build&apos;, &#123; &apos;detail&apos;: elem.dataset.time &#125;)</span><br><span class="line">EventTarget.dispatchEvent(myEvent)</span><br><span class="line">EventTarget.dispatchEvent(myCustomerEvent)</span><br></pre></td></tr></table></figure></p>
+<ol start="4">
+<li>Microsoft</li>
+</ol>
+<p>就像前面讲到的一样,Microsoft的事件模型是冒泡模型,喜欢和别人不一样,它的事件绑定方法也不一样, 事件对象event也不是传递给函数,而是暴露到window对象下.使用如下:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">element.attachEvent(&apos;on&apos;+ event, handler)</span><br><span class="line">element.detachEvent(&apos;on&apos;+ event, handler)</span><br></pre></td></tr></table></figure>
+<ol start="5">
+<li>各个事件监听的比较</li>
+</ol>
+<table>
+<thead>
+<tr>
+<th>项目</th>
+<th>DOM 0</th>
+<th>DOM 2</th>
+<th>microsoft</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>绑定函数</td>
+<td>ele.onEvent = handler</td>
+<td>ele.addEventListener(event, handler)</td>
+<td>ele.attach(‘on’+event, handler)</td>
+</tr>
+<tr>
+<td>解绑函数</td>
+<td>ele.onEvent = null</td>
+<td>ele.removeEventListener(event, handler)</td>
+<td>ele.detach(‘on’+event, handler)</td>
+</tr>
+<tr>
+<td>事件对象</td>
+<td>作为参数传递到handler</td>
+<td>作为参数传递到handler</td>
+<td>window.event对象</td>
+</tr>
+<tr>
+<td>事件原始目标</td>
+<td>event.target</td>
+<td>event.target</td>
+<td>window.event.srcElement</td>
+</tr>
+<tr>
+<td>事件当前目标</td>
+<td>event.currentTarget</td>
+<td>event.currentTarget</td>
+<td>window.event.currentTarget(ie&gt;9)</td>
+</tr>
+<tr>
+<td>handler中的this</td>
+<td>ele</td>
+<td>ele</td>
+<td>window</td>
+</tr>
+<tr>
+<td>阻止事件传递</td>
+<td>event.stopPropagation()或return false</td>
+<td>event.stopPropagation()或return false</td>
+<td>window.event.cancelBubble = true(ie仅是冒泡)或return false</td>
+</tr>
+<tr>
+<td>阻止默认行为</td>
+<td>event.preventDefault()</td>
+<td>event.preventDefault()</td>
+<td>window.event.returnValue = false</td>
+</tr>
+</tbody>
+</table>
+<ol start="6">
+<li>为何要区分捕获和冒泡?</li>
+</ol>
+<ul>
+<li>多个元素同时监听同一个事件,了解事件触发这些元素的响应顺序;结合event.stopPropagation()阻止事件向特定方向传递</li>
+</ul>
+<p>从下面的代码可以看到,只要容器事件监听设置为在捕获阶段响应,就比button先响应.</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line">// 设置不同的capture值,响应顺序变化</span><br><span class="line">&lt;div id=&apos;wrapper&apos;&gt;&lt;button id=&apos;button&apos;&gt;click&lt;/button&gt;&lt;/div&gt;</span><br><span class="line"></span><br><span class="line">// case 1: 响应时机: wrapper先于button</span><br><span class="line">wrapper.addEventLister(&apos;click&apos;, handler, true)</span><br><span class="line">button.addEventLister(&apos;click&apos;, handler, true)</span><br><span class="line"></span><br><span class="line">// case 2: 响应时机: wrapper先于button</span><br><span class="line">wrapper.addEventLister(&apos;click&apos;, handler, true)</span><br><span class="line">button.addEventLister(&apos;click&apos;, handler, false)</span><br><span class="line"></span><br><span class="line">// case 3: 响应时机: button先于wrapper</span><br><span class="line">wrapper.addEventLister(&apos;click&apos;, handler, false)</span><br><span class="line">button.addEventLister(&apos;click&apos;, handler, false)</span><br><span class="line"></span><br><span class="line">// case 4: 响应时机: button先于wrapper</span><br><span class="line">wrapper.addEventLister(&apos;click&apos;, handler, false)</span><br><span class="line">button.addEventLister(&apos;click&apos;, handler, true)</span><br></pre></td></tr></table></figure>
+<ul>
+<li>事件监听函数内嵌套同类事件监听函数,了解嵌套监听函数的触发时机</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line">// 设置不同capture值,内部嵌套监听函数是否会立即响应</span><br><span class="line">&lt;div id=&apos;wrapper&apos;&gt;&lt;button id=&apos;button&apos;&gt;click&lt;/button&gt;&lt;/div&gt;</span><br><span class="line"></span><br><span class="line">// case 1: wrapper响应后, button立即响应</span><br><span class="line">// log: wrapper, button</span><br><span class="line">wrapper.addEventListener(&apos;click&apos;, (e) =&gt; &#123;</span><br><span class="line">    console.log(&apos;wrapper&apos;)</span><br><span class="line">    button.addEventListener(&apos;click&apos;, (evt) =&gt; &#123;</span><br><span class="line">        console.log(&apos;button&apos;)</span><br><span class="line">    &#125;, false)</span><br><span class="line">&#125;, true)</span><br><span class="line"></span><br><span class="line">// case 2: wrapper响应后,button要下次点击才会响应</span><br><span class="line">// log: first-click:wrapper; second-click:button,wrapper</span><br><span class="line">div.addEventListener(&apos;click&apos;, (e) =&gt; &#123;</span><br><span class="line">    console.log(&apos;wrapper&apos;)</span><br><span class="line">    btn.addEventListener(&apos;click&apos;, (evt) =&gt; &#123;</span><br><span class="line">        console.log(&apos;button&apos;)</span><br><span class="line">    &#125;, true)</span><br><span class="line">&#125;, false)</span><br></pre></td></tr></table></figure>
+<ul>
+<li>进行事件代理</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">&lt;div id=&apos;wrapper&apos;&gt;</span><br><span class="line">    &lt;button id=&apos;button&apos;&gt;click&lt;/button&gt;</span><br><span class="line">    &lt;button&gt;not click&lt;/button&gt;</span><br><span class="line">&lt;/div&gt;</span><br><span class="line"></span><br><span class="line">wrapper.addEventListener(&apos;click&apos;, (e) =&gt; &#123;</span><br><span class="line">    if (e.target.id == &apos;button&apos;) &#123;</span><br><span class="line">        console.log(&apos;click&apos;)</span><br><span class="line">    &#125; else &#123;</span><br><span class="line">        console.log(&apos;not click&apos;)</span><br><span class="line">    &#125;</span><br><span class="line">&#125;)</span><br></pre></td></tr></table></figure>
+<hr>
+<h3 id="参考："><a href="#参考：" class="headerlink" title="参考："></a>参考：</h3><ul>
+<li><a href="https://developer.mozilla.org/zh-CN/docs/Web/API/EventTarget" target="_blank" rel="noopener">EventTarget</a></li>
+<li><a href="https://www.quirksmode.org/js/events_order.html#link4" target="_blank" rel="noopener">Event order</a></li>
+<li><a href="http://caibaojian.com/currenttarget.html" target="_blank" rel="noopener">currentTarget</a></li>
+<li><a href="http://caibaojian.com/javascript-stoppropagation-preventdefault.html" target="_blank" rel="noopener">阻止默认行为</a></li>
+</ul>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://yoursite.com/2018/06/16/javascript事件/" data-id="cjigoe1lz0001hcsrte1clwas" class="article-share-link">Share</a>
+      
+      
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Javascript事件/">Javascript事件</a></li></ul>
+
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+  
+    <a href="/2018/06/16/JavaScript设计模式-单例模式/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Older</strong>
+      <div class="article-nav-title">JavaScript设计模式-单例模式</div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+</section>
+        
+          <aside id="sidebar">
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Categories</h3>
+    <div class="widget">
+      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/Javascript/">Javascript</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/R语言/">R语言</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Tags</h3>
+    <div class="widget">
+      <ul class="tag-list"><li class="tag-list-item"><a class="tag-list-link" href="/tags/Javascript事件/">Javascript事件</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/数据类型/">数据类型</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/方差分析/">方差分析</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/设计模式/">设计模式</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Tag Cloud</h3>
+    <div class="widget tagcloud">
+      <a href="/tags/Javascript事件/" style="font-size: 10px;">Javascript事件</a> <a href="/tags/数据类型/" style="font-size: 10px;">数据类型</a> <a href="/tags/方差分析/" style="font-size: 10px;">方差分析</a> <a href="/tags/设计模式/" style="font-size: 10px;">设计模式</a>
+    </div>
+  </div>
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Archives</h3>
+    <div class="widget">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/06/">June 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/05/">May 2018</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Recent Posts</h3>
+    <div class="widget">
+      <ul>
+        
+          <li>
+            <a href="/2018/06/16/javascript事件/">javascript事件</a>
+          </li>
+        
+          <li>
+            <a href="/2018/06/16/JavaScript设计模式-单例模式/">JavaScript设计模式-单例模式</a>
+          </li>
+        
+          <li>
+            <a href="/2018/05/13/利用R对实验数据进行方差分析/">利用R对实验数据进行方差分析</a>
+          </li>
+        
+          <li>
+            <a href="/2018/05/13/R语言入门之数据类型简介/">R语言入门之数据类型简介</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+  
+</aside>
+        
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      &copy; 2018 Zoilo Xi<br>
+      Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>
+    </div>
+  </div>
+</footer>
+    </div>
+    <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">Home</a>
+  
+    <a href="/archives" class="mobile-nav-link">Archives</a>
+  
+</nav>
+    
+
+<script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+
+
+  <link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
+  <script src="/fancybox/jquery.fancybox.pack.js"></script>
+
+
+<script src="/js/script.js"></script>
+
+
+
+  </div>
+</body>
+</html>

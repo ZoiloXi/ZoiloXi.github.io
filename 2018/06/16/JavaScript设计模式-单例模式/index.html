@@ -1,0 +1,269 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+
+  
+  <title>JavaScript设计模式-单例模式 | Zoro</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="什么是单例模式?  单例模式的用途  什么是单例模式？单例模式，顾名思义，就是单个例子的模式，放在编程里讲，就是一种只有单个实例的编程方式。其核心理念就是单个类，只会实例化一次，即该类只有单个实例，亦即单例。那么如何实现呢？我们要注意“一个类只有一个实例”这个核心，下面我们从它的实际用途来说明。">
+<meta name="keywords" content="设计模式">
+<meta property="og:type" content="article">
+<meta property="og:title" content="JavaScript设计模式-单例模式">
+<meta property="og:url" content="http://yoursite.com/2018/06/16/JavaScript设计模式-单例模式/index.html">
+<meta property="og:site_name" content="Zoro">
+<meta property="og:description" content="什么是单例模式?  单例模式的用途  什么是单例模式？单例模式，顾名思义，就是单个例子的模式，放在编程里讲，就是一种只有单个实例的编程方式。其核心理念就是单个类，只会实例化一次，即该类只有单个实例，亦即单例。那么如何实现呢？我们要注意“一个类只有一个实例”这个核心，下面我们从它的实际用途来说明。">
+<meta property="og:locale" content="default">
+<meta property="og:updated_time" content="2018-06-16T00:33:35.814Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="JavaScript设计模式-单例模式">
+<meta name="twitter:description" content="什么是单例模式?  单例模式的用途  什么是单例模式？单例模式，顾名思义，就是单个例子的模式，放在编程里讲，就是一种只有单个实例的编程方式。其核心理念就是单个类，只会实例化一次，即该类只有单个实例，亦即单例。那么如何实现呢？我们要注意“一个类只有一个实例”这个核心，下面我们从它的实际用途来说明。">
+  
+    <link rel="alternate" href="/atom.xml" title="Zoro" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="/favicon.png">
+  
+  
+    <link href="//fonts.googleapis.com/css?family=Source+Code+Pro" rel="stylesheet" type="text/css">
+  
+  <link rel="stylesheet" href="/css/style.css">
+</head>
+
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <h1 id="logo-wrap">
+        <a href="/" id="logo">Zoro</a>
+      </h1>
+      
+        <h2 id="subtitle-wrap">
+          <a href="/" id="subtitle">When u want to fly, I guess the wind will do a favor.</a>
+        </h2>
+      
+    </div>
+    <div id="header-inner" class="inner">
+      <nav id="main-nav">
+        <a id="main-nav-toggle" class="nav-icon"></a>
+        
+          <a class="main-nav-link" href="/">Home</a>
+        
+          <a class="main-nav-link" href="/archives">Archives</a>
+        
+      </nav>
+      <nav id="sub-nav">
+        
+          <a id="nav-rss-link" class="nav-icon" href="/atom.xml" title="RSS Feed"></a>
+        
+        <a id="nav-search-btn" class="nav-icon" title="Search"></a>
+      </nav>
+      <div id="search-form-wrap">
+        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="Search"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="http://yoursite.com"></form>
+      </div>
+    </div>
+  </div>
+</header>
+      <div class="outer">
+        <section id="main"><article id="post-JavaScript设计模式-单例模式" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2018/06/16/JavaScript设计模式-单例模式/" class="article-date">
+  <time datetime="2018-06-16T00:30:28.000Z" itemprop="datePublished">2018-06-16</time>
+</a>
+    
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/Javascript/">Javascript</a>
+  </div>
+
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      JavaScript设计模式-单例模式
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <ul>
+<li style="list-style: none"><input type="checkbox"> 什么是单例模式?</li>
+<li style="list-style: none"><input type="checkbox"> 单例模式的用途</li>
+</ul>
+<h2 id="什么是单例模式？"><a href="#什么是单例模式？" class="headerlink" title="什么是单例模式？"></a>什么是单例模式？</h2><p>单例模式，顾名思义，就是单个例子的模式，放在编程里讲，就是一种只有单个实例的编程方式。其核心理念就是单个类，只会实例化一次，即该类只有单个实例，亦即单例。那么如何实现呢？我们要注意“一个类只有一个实例”这个核心，下面我们从它的实际用途来说明。</p>
+<a id="more"></a>
+<h2 id="单例模式的用处"><a href="#单例模式的用处" class="headerlink" title="单例模式的用处"></a>单例模式的用处</h2><ol>
+<li>创建命名空间</li>
+</ol>
+<p>在多人合作开发的过程中，难免会出现命名冲突的情况；在这种情况下，为了防止命名冲突导致的变量、函数重载，我们可以为开发人员定义一个对象，将该开发人员定义的所有变量和函数都挂载在该对象上。对于该对象类来说，这个对象的所谓实例就是其本身，也就符合单个类只有单个实例一说.代码如下：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">// namespace</span><br><span class="line">var BaiduTieba = &#123;</span><br><span class="line">    reply: function () &#123; /*...回复私信...*/ &#125;,</span><br><span class="line">    recept: function () &#123; /*...接收私信...*/ &#125;</span><br><span class="line">&#125;</span><br><span class="line">var BaiduZhidao = &#123;</span><br><span class="line">    query: function () &#123; /*...查询问题...*/ &#125;,</span><br><span class="line">    answer: function () &#123; /*...回答问题...*/ &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>从上面我们可以看出，使用单例模式的最简单方法就是使用对象字面量定义，BaiduTieba和BaiduZhidao类的实例就是这两个对象(因为它不能使用new进行实例化)。在jQuery中，jQuery就是类似的以单例形式形成的命名空间。</p>
+<ol start="2">
+<li>实现静态变量</li>
+</ol>
+<p>在ES6的const出现以前，没有什么变量是不能重载的；一不小心就把某个具有特定值的变量进行重新赋值。而在许多情况下，我们需要保证一些变量的值是不变的，也就是说要使其成为静态变量，这在读取完配置文件时十分常见；如果需要进行访问或修改的话，则需要我们通过特定的方法进行。比如：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">var Config = (function () &#123;</span><br><span class="line">    var conf = &#123;</span><br><span class="line">        MAX_NUM: 100,</span><br><span class="line">        MIN_NUM: 10,</span><br><span class="line">        COUNT: 1000</span><br><span class="line">    &#125;;</span><br><span class="line">    return &#123;</span><br><span class="line">        get: function (name) &#123;</span><br><span class="line">            return conf[name] &amp;&amp; conf[name];</span><br><span class="line">        &#125;</span><br><span class="line">        set: function (name, value) &#123;</span><br><span class="line">            return conf[name] = value;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;)()</span><br></pre></td></tr></table></figure></p>
+<p>在上面那个例子中，Config使用闭包保证config参数无法被外部直接修改，也就间接地实现了静态变量config。如果要访问或者修改的话，则必需通过Config.get和Config.set函数.可以看到，这个例子最终的返回值其实与创建命名空间是相类似的，那也同样符合“单个类只有单个实例”一说。</p>
+<ol start="3">
+<li>惰性创建对象</li>
+</ol>
+<p>在有些时候，我们没有必要立刻创建某个变量，而是在需要的时候进行创建；这有点类似按需加载的意味.这也就是所谓的惰性单例。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line">var Lazy = (function () &#123;</span><br><span class="line">    var instance = null;</span><br><span class="line">    </span><br><span class="line">    function Singleton () &#123;</span><br><span class="line">        // 定义私有的属性和方法</span><br><span class="line">        var privateMethod = function () &#123;&#125;;</span><br><span class="line">        var privateProperty = function () &#123;&#125;;</span><br><span class="line">        </span><br><span class="line">        // 定义供外部访问的属性和方法</span><br><span class="line">        return &#123;</span><br><span class="line">            publicMethod: function () &#123;&#125;,</span><br><span class="line">            publicProperty: null</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    return function () &#123;</span><br><span class="line">        if (!instance) &#123;</span><br><span class="line">            instance = Singleton();</span><br><span class="line">        &#125;</span><br><span class="line">        return instance;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;)();</span><br></pre></td></tr></table></figure>
+<p>从代码看，仍旧是使用闭包来实现单例模式，但这里的单例不再是为了实现静态变量；而是真正实现内部函数Singleton的单例模式，只有在我们调用Lazy后，我们才能获得Singleton的一个实例；无论调用多少次，都是该实例；也就是说，Lazy实现了Singleton只有一个实例存在,也符合“单个类单个实例”一说。例如：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">var a = Lazy(); a;</span><br><span class="line">// =&gt; &#123;publicMethod: ƒ, publicProperty: null&#125;</span><br><span class="line">var b = Lazy(); b;</span><br><span class="line">// =&gt; &#123;publicMethod: ƒ, publicProperty: null&#125;</span><br><span class="line">a === b;</span><br><span class="line">// =&gt; true</span><br></pre></td></tr></table></figure></p>
+<blockquote>
+<p>在阅读里面给的第一篇<a href="https://note.youdao.com/" target="_blank" rel="noopener">《JavaScript设计模式—-单例模式》</a>中，2.1下方的实现惰性单例有误，“var a = Singleton.getInstance(‘seven1’);var b = Singleton.getInstance(‘seven2’);”中没有返回值，a和b均为undefined，a===b自然为true。</p>
+</blockquote>
+<h2 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h2><ul>
+<li><a href="https://www.cnblogs.com/giggle/p/5452271.html" target="_blank" rel="noopener">JavaScript之单例实战</a></li>
+<li><a href="https://www.cnblogs.com/cangowu/p/5062130.html" target="_blank" rel="noopener">JavaScript设计模式之单例模式</a></li>
+<li><a href="https://blog.csdn.net/yisuowushinian/article/details/52003127" target="_blank" rel="noopener">JavaScript设计模式—-单例模式</a></li>
+<li><a href="https://book.douban.com/subject/26589719/" target="_blank" rel="noopener">JavaScript设计模式-张容铭著</a></li>
+</ul>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://yoursite.com/2018/06/16/JavaScript设计模式-单例模式/" data-id="cjigoe1lk0000hcsri0r27ckh" class="article-share-link">Share</a>
+      
+      
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/设计模式/">设计模式</a></li></ul>
+
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+    <a href="/2018/06/16/javascript事件/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Newer</strong>
+      <div class="article-nav-title">
+        
+          javascript事件
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2018/05/13/利用R对实验数据进行方差分析/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Older</strong>
+      <div class="article-nav-title">利用R对实验数据进行方差分析</div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+</section>
+        
+          <aside id="sidebar">
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Categories</h3>
+    <div class="widget">
+      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/Javascript/">Javascript</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/R语言/">R语言</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Tags</h3>
+    <div class="widget">
+      <ul class="tag-list"><li class="tag-list-item"><a class="tag-list-link" href="/tags/Javascript事件/">Javascript事件</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/数据类型/">数据类型</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/方差分析/">方差分析</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/设计模式/">设计模式</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Tag Cloud</h3>
+    <div class="widget tagcloud">
+      <a href="/tags/Javascript事件/" style="font-size: 10px;">Javascript事件</a> <a href="/tags/数据类型/" style="font-size: 10px;">数据类型</a> <a href="/tags/方差分析/" style="font-size: 10px;">方差分析</a> <a href="/tags/设计模式/" style="font-size: 10px;">设计模式</a>
+    </div>
+  </div>
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Archives</h3>
+    <div class="widget">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/06/">June 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/05/">May 2018</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Recent Posts</h3>
+    <div class="widget">
+      <ul>
+        
+          <li>
+            <a href="/2018/06/16/javascript事件/">javascript事件</a>
+          </li>
+        
+          <li>
+            <a href="/2018/06/16/JavaScript设计模式-单例模式/">JavaScript设计模式-单例模式</a>
+          </li>
+        
+          <li>
+            <a href="/2018/05/13/利用R对实验数据进行方差分析/">利用R对实验数据进行方差分析</a>
+          </li>
+        
+          <li>
+            <a href="/2018/05/13/R语言入门之数据类型简介/">R语言入门之数据类型简介</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+  
+</aside>
+        
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      &copy; 2018 Zoilo Xi<br>
+      Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>
+    </div>
+  </div>
+</footer>
+    </div>
+    <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">Home</a>
+  
+    <a href="/archives" class="mobile-nav-link">Archives</a>
+  
+</nav>
+    
+
+<script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+
+
+  <link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
+  <script src="/fancybox/jquery.fancybox.pack.js"></script>
+
+
+<script src="/js/script.js"></script>
+
+
+
+  </div>
+</body>
+</html>
